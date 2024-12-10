@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 services:
   api-gateway:
     build:
@@ -7,10 +7,13 @@ services:
     ports:
       - "3000:3000"
     environment:
-    # URLs des microservices
+      # URLs des microservices
       USER_SERVICE_URL: http://user-service:3001
       BORROW_SERVICE_URL: http://borrow-service:3002
       BOOK_SERVICE_URL: http://book-service:3003
+
+    command: >
+      sh -c "npm install && npm run dev"
     volumes:
       - ./src:/usr/src/app/src
     networks:
