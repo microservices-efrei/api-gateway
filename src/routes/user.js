@@ -1,16 +1,9 @@
 const express = require("express");
-const { createProxyMiddleware } = require("http-proxy-middleware");
-const router = express.Router();
+const createServiceProxy = require("../utils/proxy");
 
-router.use(
-  "/api/users",
-  createProxyMiddleware({
-    target: process.env.USER_SERVICE_URL,
-    changeOrigin: true,
-    pathRewrite: {
-      "^/users": "/", // Réécrire "/users" en "/"
-    },
-  })
-);
+const router = express.Router();
+const userServiceProxy = createServiceProxy("http://user-service:3001");
+
+router.use("/", userServiceProxy);
 
 module.exports = router;

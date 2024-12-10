@@ -1,14 +1,13 @@
-version: "3.8"
+version: '3.8'
 services:
-  app:
-    container_name: api-gateway
+  api-gateway:
     build:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "3000:3000" # L'API Gateway sera accessible sur le port 4000
+      - "3000:3000"
     environment:
-      # URLs des microservices
+    # URLs des microservices
       USER_SERVICE_URL: http://user-service:3001
       BORROW_SERVICE_URL: http://borrow-service:3002
       BOOK_SERVICE_URL: http://book-service:3003

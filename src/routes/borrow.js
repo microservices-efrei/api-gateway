@@ -1,16 +1,9 @@
 const express = require("express");
-const { createProxyMiddleware } = require("http-proxy-middleware");
-const router = express.Router();
+const createServiceProxy = require("../utils/proxy");
 
-router.use(
-  "/",
-  createProxyMiddleware({
-    target: process.env.BORROW_SERVICE_URL,
-    changeOrigin: true,
-    pathRewrite: {
-      "^/borrow": "/", // Réécrire "/borrow" en "/"
-    },
-  })
-);
+const router = express.Router();
+const borrowServiceProxy = createServiceProxy("http://borrow-service:3002");
+
+router.use("/", borrowServiceProxy);
 
 module.exports = router;

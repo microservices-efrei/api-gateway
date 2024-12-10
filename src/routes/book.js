@@ -1,16 +1,9 @@
 const express = require("express");
-const { createProxyMiddleware } = require("http-proxy-middleware");
-const router = express.Router();
+const createServiceProxy = require("../utils/proxy");
 
-router.use(
-  "/",
-  createProxyMiddleware({
-    target: process.env.BOOK_SERVICE_URL,
-    changeOrigin: true,
-    pathRewrite: {
-      "^/books": "/", // Réécrire "/books" en "/"
-    },
-  })
-);
+const router = express.Router();
+const bookServiceProxy = createServiceProxy("http://book-service:3003");
+
+router.use("/", bookServiceProxy);
 
 module.exports = router;
